@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farhan Sadik — RTL & Digital Design Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c10;
+  --bg-card: #11141b;
+  --bg-card-hover: #161a24;
+  --border: #1e2330;
+  --border-accent: #2d6aff22;
+  --text: #c8cdd8;
+  --text-dim: #6b7280;
+  --text-bright: #e8ecf4;
+  --accent: #4d8aff;
+  --accent-dim: #2d6aff;
+  --accent-glow: #4d8aff18;
+  --green: #34d399;
+  --amber: #fbbf24;
+  --rose: #f472b6;
+  --cyan: #22d3ee;
+  --mono: 'JetBrains Mono', monospace;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === GRID NOISE OVERLAY === */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(ellipse 80% 60% at 20% 10%, #4d8aff06, transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%, #f472b606, transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === LAYOUT === */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* === HERO === */
+.hero {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 400;
+  color: var(--text-bright);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.1s forwards;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-desc {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 640px;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.2s forwards;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.3s forwards;
+}
+
+.hero-meta a, .hero-meta span {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.hero-meta a:hover { color: var(--accent); }
+
+.hero-meta .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  display: inline-block;
+}
+
+/* === SECTION === */
+section {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 400;
+  color: var(--text-bright);
+  margin-bottom: 12px;
+}
+
+.section-desc {
+  color: var(--text-dim);
+  font-size: 15px;
+  max-width: 580px;
+  margin-bottom: 40px;
+}
+
+/* === PROJECT CARDS === */
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 36px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.project-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+.project-card:hover::before { opacity: 1; }
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.project-header h3 {
+  font-family: var(--sans);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.project-course {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  background: var(--accent-glow);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.project-summary {
+  color: var(--text);
+  font-size: 14.5px;
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  background: transparent;
+}
+
+.tag.verilog { color: var(--accent); border-color: #4d8aff33; }
+.tag.hls { color: var(--cyan); border-color: #22d3ee33; }
+.tag.synopsys { color: var(--amber); border-color: #fbbf2433; }
+.tag.fpga { color: var(--green); border-color: #34d39933; }
+.tag.c { color: var(--rose); border-color: #f472b633; }
+
+/* === KEY RESULTS GRID === */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.result-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.result-value {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.result-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* === DETAIL LIST === */
+.detail-list {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.detail-list li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.detail-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* === SKILLS GRID === */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.skill-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+
+.skill-card:hover { border-color: #2d3a55; }
+
+.skill-card h4 {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.skill-card p {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+/* === HARDWARE GALLERY === */
+.hw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.hw-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.hw-card:hover {
+  border-color: var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+.hw-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.9);
+  transition: filter 0.3s;
+}
+
+.hw-card:hover img { filter: brightness(1); }
+
+.hw-card .hw-info {
+  padding: 20px;
+}
+
+.hw-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+
+.hw-card p {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+/* === LINKS SECTION === */
+.links-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.link-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  background: var(--accent-glow);
+}
+
+.link-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* === FOOTER === */
+.footer {
+  padding: 48px 0;
+  text-align: center;
+}
+
+.footer p {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 640px) {
+  .project-card { padding: 24px; }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 48px 0 40px; }
+  section { padding: 48px 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-label">RTL & Digital Design Portfolio</div>
+    <h1>Farhan Sadik<br><em>Digital Hardware Engineer</em></h1>
+    <p class="hero-desc">
+      Verilog RTL design, ASIC synthesis flows, FPGA prototyping, and High-Level Synthesis.
+      Final-year Electrical Engineering at NUS with project work spanning pipelined CPUs, 
+      streaming coprocessors, and VLSI design flows.
+    </p>
+    <div class="hero-meta">
+      <span><span class="dot"></span> Open to graduate roles — Aug 2026</span>
+      <a href="mailto:sadikfarhan10@u.nus.edu">sadikfarhan10@u.nus.edu</a>
+      <a href="https://www.linkedin.com/in/sadik-mohammad" target="_blank">LinkedIn ↗</a>
+      <a href="https://github.com/1102heavy" target="_blank">GitHub ↗</a>
+    </div>
+  </header>
+
+  <!-- PROJECT 1: AXI-STREAM COPROCESSOR -->
+  <section>
+    <div class="section-label">01 — Flagship Project</div>
+    <div class="section-title">AXI-Stream Matrix Multiplier Coprocessor</div>
+    <div class="section-desc">Hardware acceleration on Xilinx Kria KV260 — from RTL through HLS, with full verification and performance benchmarking.</div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <h3>Architecture & Implementation</h3>
+        <span class="project-course">EE4218 · Kria KV260 · 2026</span>
+      </div>
+      <div class="tag-row">
+        <span class="tag verilog">Verilog</span>
+        <span class="tag hls">Vitis HLS</span>
+        <span class="tag fpga">Vivado IP Integrator</span>
+        <span class="tag c">C (Vitis)</span>
+        <span class="tag">AXI4-Stream</span>
+        <span class="tag">FSM</span>
+      </div>
+      <p class="project-summary">
+        Designed a streaming matrix-multiplication coprocessor with S_AXIS input and M_AXIS output,
+        implementing fixed-point <code>RES = A·B / 256</code> arithmetic. The core uses an FSM with
+        dedicated A, B, and Result RAMs, Start/Done handshaking, and supports continuous operation 
+        without external reset between jobs. Integrated into a Vivado platform with ARM Cortex-A53 
+        host, AXI Stream FIFO, and timer peripherals.
+      </p>
+      <ul class="detail-list">
+        <li>Built self-checking verification with <code>.mem</code> stimulus/expected vectors; validated TVALID/TREADY backpressure and TLAST framing across behavioural and post-synthesis simulation</li>
+        <li>Explored HLS optimisations: pipeline, unroll, array partition, dataflow — evaluated resource vs. performance trade-offs against HDL implementation</li>
+        <li>Refactored FSM control to minimise overhead cycles between transfers, improving accelerator utilisation</li>
+        <li>Wrote Vitis C benchmarking code to stream CSV matrices, measure AXI Timer cycle counts, and compare SW baseline vs. HDL vs. HLS accelerator</li>
+      </ul>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="result-value">30×</div>
+          <div class="result-label">Cycle-level speedup<br>over SW baseline</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value">2,000</div>
+          <div class="result-label">Cycles for 64×8 · 8×1<br>(down from 60,000)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value">3</div>
+          <div class="result-label">Implementations compared<br>SW / HDL / HLS</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value">147</div>
+          <div class="result-label">Commits in project repo<br><a href="https://github.com/1102heavy/Group_6_EE4218" target="_blank" style="color:var(--accent);font-family:var(--mono);font-size:11px;">View on GitHub ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT 2: ASIC FLOW -->
+  <section>
+    <div class="section-label">02 — ASIC Design Flow</div>
+    <div class="section-title">CMOS VLSI — Synopsys RTL-to-Gate Flow</div>
+    <div class="section-desc">Full ASIC synthesis flow from RTL through timing closure using industry-standard Synopsys tools.</div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <h3>16-bit RISC CPU — Program Counter Module</h3>
+        <span class="project-course">EE4415 · Synopsys · 2026</span>
+      </div>
+      <div class="tag-row">
+        <span class="tag verilog">Verilog</span>
+        <span class="tag synopsys">Design Compiler</span>
+        <span class="tag synopsys">Design Vision</span>
+        <span class="tag">VCS</span>
+        <span class="tag">DVE</span>
+        <span class="tag">STA</span>
+      </div>
+      <p class="project-summary">
+        Implemented and verified a Program Counter (PRGRM_CNT) submodule in Verilog for a 16-bit 
+        RISC CPU core, then executed a complete ASIC synthesis flow targeting a standard-cell 
+        technology library.
+      </p>
+      <ul class="detail-list">
+        <li>Simulated RTL in Synopsys VCS; validated functional correctness with waveform analysis in DVE</li>
+        <li>Synthesised in Design Compiler with timing/area constraints: clock period, uncertainty, I/O delays, capacitive load, max area — mapped RTL to gate-level netlist</li>
+        <li>Generated and interpreted STA reports: setup/hold slack, critical-path highlighting, constraint violation checks</li>
+        <li>Wrote DC-Tcl automation scripts (<code>run.tcl</code>) for reproducible synthesis: read → link → constrain → compile → report → save</li>
+      </ul>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="result-value">Clean</div>
+          <div class="result-label">Timing closure<br>setup & hold met</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value">Tcl</div>
+          <div class="result-label">Automated flow<br>fully scriptable</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value">STA</div>
+          <div class="result-label">Timing analysis<br>critical-path aware</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT 3: RISC-V CPU -->
+  <section>
+    <div class="section-label">03 — Processor Design</div>
+    <div class="section-title">Pipelined RISC-V CPU on Artix-7 FPGA</div>
+    <div class="section-desc">Full datapath + control in Verilog with hazard handling, deployed on Nexys A7 hardware.</div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <h3>5-Stage Pipeline with Forwarding & Stall Logic</h3>
+        <span class="project-course">CG3207 · Nexys A7 · 2025</span>
+      </div>
+      <div class="tag-row">
+        <span class="tag verilog">Verilog</span>
+        <span class="tag fpga">Artix-7 FPGA</span>
+        <span class="tag">RISC-V ISA</span>
+        <span class="tag">Pipeline</span>
+        <span class="tag">Hazard Unit</span>
+      </div>
+      <p class="project-summary">
+        Designed a synthesisable pipelined RISC-V CPU implementing the core integer ISA with 
+        a 5-stage pipeline (IF/ID/EX/MEM/WB), complete control unit, and hazard handling through 
+        data forwarding and pipeline stalling.
+      </p>
+      <ul class="detail-list">
+        <li>Implemented data forwarding paths and stall logic to maintain ISA-correct execution under all hazard conditions</li>
+        <li>Verified with self-checking simulation testbenches and directed instruction sequences; debugged with waveform analysis</li>
+        <li>Applied RTL best practices: clean module interfaces, clock/reset discipline, timing-aware design from simulation to on-board bring-up</li>
+        <li>Used on-board LEDs, switches, seven-segment displays and UART for hardware debugging and verification</li>
+        <li>Wrote C/assembly micro-benchmarks to measure cycles, CPI, and latency — validated forwarding/stall behaviour against expected performance</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PROJECT 4: ANALOG -->
+  <section>
+    <div class="section-label">04 — Analog IC Design</div>
+    <div class="section-title">Spec-Driven CMOS Operational Amplifier</div>
+    <div class="section-desc">Transistor-level design in Cadence Virtuoso with corner analysis and spec verification.</div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <h3>Differential Amplifier — gm/Id Methodology</h3>
+        <span class="project-course">EE3408C · Cadence · 2025</span>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Cadence Virtuoso</span>
+        <span class="tag">Spectre</span>
+        <span class="tag">ADE</span>
+        <span class="tag">CMOS</span>
+        <span class="tag">Analog</span>
+      </div>
+      <p class="project-summary">
+        Built a transistor-level analog design flow: pre-sized using gm/Id methodology, implemented 
+        differential pair with current mirrors and active loads, then iteratively tuned with ADE 
+        while tracking gain, CMRR, power consumption, and output swing. Verified robustness with 
+        process corner analysis.
+      </p>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="result-value">>1000</div>
+          <div class="result-label">Mid-band voltage gain<br>differential amplifier</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value">Corners</div>
+          <div class="result-label">Process corner analysis<br>robustness verified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section>
+    <div class="section-label">05 — Toolchain</div>
+    <div class="section-title">Skills & Tools</div>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h4>RTL & Digital Design</h4>
+        <p>Verilog, SystemVerilog, FSM design, pipelined datapaths, hazard handling, clock/reset discipline, RTL coding best practices</p>
+      </div>
+      <div class="skill-card">
+        <h4>ASIC Synthesis & STA</h4>
+        <p>Synopsys Design Compiler, Design Vision, timing/area constraints, STA reports (setup/hold/slack), critical-path analysis, DC-Tcl scripting</p>
+      </div>
+      <div class="skill-card">
+        <h4>FPGA & HLS</h4>
+        <p>Vivado IP Integrator, Vitis HLS (pipeline/unroll/array partition/dataflow), AXI4-Stream, AXI DMA, FIFO interfaces, resource trade-off analysis</p>
+      </div>
+      <div class="skill-card">
+        <h4>Verification</h4>
+        <p>Self-checking testbenches, .mem stimulus vectors, behavioural + post-synthesis simulation, VCS, DVE waveform analysis, directed tests</p>
+      </div>
+      <div class="skill-card">
+        <h4>Programming</h4>
+        <p>C/C++ (embedded + HLS test harnesses), Python (NumPy, pandas, matplotlib), MATLAB/Simulink, Tcl scripting</p>
+      </div>
+      <div class="skill-card">
+        <h4>Hardware & Embedded</h4>
+        <p>Altium PCB design, STM32/Teensy, FreeRTOS, CAN/UART/SPI/I²C, oscilloscope, logic analyser, systematic fault isolation</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDWARE GALLERY -->
+  <section>
+    <div class="section-label">06 — Hardware</div>
+    <div class="section-title">Selected Hardware Builds</div>
+    <div class="section-desc">PCBs and systems designed and brought up for the NUS Formula SAE EV team.</div>
+
+    <div class="hw-grid">
+      <div class="hw-card">
+        <img src="https://1102heavy.github.io/Sadik_Mohammad_Farhan_Resume/GLV_BMS_PCB.jpg" 
+             alt="AMS/BMS Module Prototype PCB" 
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div style="display:none;height:200px;background:var(--bg);align-items:center;justify-content:center;color:var(--text-dim);font-family:var(--mono);font-size:12px;">BMS Module — image loads from portfolio site</div>
+        <div class="hw-info">
+          <h4>AMS / BMS Module</h4>
+          <p>TLE9012/TLE9015 cell monitoring, STM32, isolated UART, multi-layer PCB in Altium for the R26e accumulator management system.</p>
+        </div>
+      </div>
+      <div class="hw-card">
+        <img src="https://1102heavy.github.io/Sadik_Mohammad_Farhan_Resume/BSPD_PCB.jpg" 
+             alt="BSPD PCB with STM32 monitoring"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div style="display:none;height:200px;background:var(--bg);align-items:center;justify-content:center;color:var(--text-dim);font-family:var(--mono);font-size:12px;">BSPD PCB — image loads from portfolio site</div>
+        <div class="hw-info">
+          <h4>Brake System Plausibility Device</h4>
+          <p>Safety-critical BSPD with hardwired analog shutdown path + STM32 monitoring for plausibility event logging and threshold tuning.</p>
+        </div>
+      </div>
+      <div class="hw-card">
+        <img src="https://1102heavy.github.io/Sadik_Mohammad_Farhan_Resume/dashboard_live_telemetry_assembly.jpg" 
+             alt="R25e Dashboard PCB"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div style="display:none;height:200px;background:var(--bg);align-items:center;justify-content:center;color:var(--text-dim);font-family:var(--mono);font-size:12px;">Dashboard PCB — image loads from portfolio site</div>
+        <div class="hw-info">
+          <h4>R25e Dashboard & Telemetry</h4>
+          <p>2-layer Altium PCB with Teensy 4.1, 3× CAN transceivers, on-board regulators. Host for live telemetry and driver messaging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINKS -->
+  <section>
+    <div class="section-label">07 — Links</div>
+    <div class="section-title">Find Me</div>
+    <div class="links-row" style="margin-top: 24px;">
+      <a class="link-btn" href="https://github.com/1102heavy/Group_6_EE4218" target="_blank">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        EE4218 Coprocessor Repo
+      </a>
+      <a class="link-btn" href="https://github.com/1102heavy" target="_blank">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub Profile
+      </a>
+      <a class="link-btn" href="https://1102heavy.github.io/Sadik_Mohammad_Farhan_Resume/NUS_RESUME.html" target="_blank">
+        <svg viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5zM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11z" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+        Full Resume Site
+      </a>
+      <a class="link-btn" href="https://niikhilesh.github.io/Cascadia-System-Integration-HV-and-LV/" target="_blank">
+        <svg viewBox="0 0 16 16"><path d="M4.715 6.542L3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z" fill="currentColor"/><path d="M11.285 9.458l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 5.671A3 3 0 0 0 7.414 10.5l.586-.586a1.002 1.002 0 0 0 .154-.199 2 2 0 0 1-.861-3.337L9.12 4.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287z" fill="currentColor"/></svg>
+        FYP: Cascadia Integration
+      </a>
+      <a class="link-btn" href="https://www.linkedin.com/in/sadik-mohammad" target="_blank">
+        <svg viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" fill="currentColor"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Farhan Sadik · NUS Electrical Engineering · <a href="mailto:sadikfarhan10@u.nus.edu">sadikfarhan10@u.nus.edu</a> · +65 8602 3345</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
